@@ -24,8 +24,36 @@ quantitative_cols = [col for col in df.columns if df[col].dtype != 'object']
 # Imprimir las columnas que contienen variables cuantitativas
 print(quantitative_cols)
 
-# Crear un gráfico de dispersión que muestre la relación entre las ventas y el descuento
-sns.scatterplot(x='Discount', y='Sales', data=df)
+# Crear un gráfico de barras que muestre la cantidad de ventas por ciudad
+## sns.barplot(x='City', y='Sales', data=df)
+
+# Mostrar el gráfico
+## plt.show()
+
+# Obtener una lista de todos los valores únicos en la columna "City"
+unique_cities = df['City'].unique()
+
+# Imprimir la lista de valores únicos
+print(unique_cities)
+
+# Contar la cantidad de veces que aparece cada valor único en la columna "City"
+city_counts = df['City'].value_counts()
+
+# Imprimir la cantidad de veces que aparece cada valor único
+print(city_counts)
+
+# Filtrar las filas que corresponden a las ciudades que deseas incluir en el gráfico
+cities = ['New York City', 'Los Angeles', 'Philadelphia', 'San Francisco', 'Seattle']
+df_filtered = df[df['City'].isin(cities)]
+
+# Crear un gráfico de barras que muestre las ventas por ciudad
+sns.barplot(x='City', y='Sales', data=df_filtered)
+
+# Mostrar el gráfico
+plt.show()
+
+# Crear un gráfico de líneas que muestre las ventas por ciudad
+sns.lineplot(x='City', y='Sales', data=df_filtered, sort=False, marker='o')
 
 # Mostrar el gráfico
 plt.show()
