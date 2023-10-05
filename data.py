@@ -76,16 +76,17 @@ plt.show()
 
 ## __________________________________________________________________________
 
-# Filtrar los datos para los estados mencionados
-estados = ['Louisiana', 'South Carolina', 'Mississippi', 'Arkansas', 'Alabama', 
-           'Kentucky', 'Tennessee', 'Georgia', 'Virginia', 'North Carolina', 'Florida']
-df_south_estados = df_south[df_south['State'].isin(estados)]
+# Filtrar los datos para la región 'South'
+df_south = df[df['Region'] == 'South']
 
-# Agrupar por 'City' y contar el número de ventas (filas) en cada ciudad
-ventas_por_ciudad = df_south_estados.groupby('City').size()
+# Contar el número de ventas (filas) en cada estado
+ventas_por_estado = df_south.groupby('State').size()
 
-# Ordenar los datos de menor a mayor
-ventas_por_ciudad.sort_values(inplace=True)
-
-# Imprimir un resumen en la terminal
-print(ventas_por_ciudad)
+# Crear un gráfico de líneas con puntos
+plt.figure(figsize=(10, 6))
+ventas_por_estado.sort_values().plot(kind='line', marker='o')
+plt.title('Número de ventas por estado en la región South')
+plt.xlabel('Estado')
+plt.ylabel('Número de ventas')
+plt.grid(True)
+plt.show()
