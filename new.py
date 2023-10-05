@@ -110,3 +110,24 @@ for var in variables:
     print(f'Región con el menor número de ventas: {region_min_ventas}')
     print(df_min_ventas[var].value_counts())
     print('\n')
+
+## ________________________________________________________________
+
+# Lista de regiones
+regiones = df['Region'].unique()
+
+for region in regiones:
+    # Filtrar los datos para la región actual
+    df_region = df[df['Region'] == region]
+
+    # Seleccionar solo las columnas cuantitativas que podrían estar relacionadas con las ventas
+    df_numeric = df_region[['Sales', 'Quantity', 'Discount', 'Profit']]
+
+    # Calcular la matriz de correlación
+    corr_matrix = df_numeric.corr()
+
+    # Crear un mapa de calor para visualizar la matriz de correlación
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap='coolwarm')
+    plt.title(f'Matriz de correlación para la región {region}')
+    plt.show()

@@ -76,17 +76,18 @@ plt.show()
 
 ## __________________________________________________________________________
 
-# Filtrar los datos para la región 'South'
-df_south = df[df['Region'] == 'South']
+# Convertir las columnas categóricas a tipo 'category'
+categorical_columns = ['Segment', 'City', 'State', 'Category', 'Sub-Category', 'Status']
+for col in categorical_columns:
+    df[col] = df[col].astype('category')
 
-# Contar el número de ventas (filas) en cada estado
-ventas_por_estado = df_south.groupby('State').size()
+# Codificar las columnas categóricas
+df[categorical_columns] = df[categorical_columns].apply(lambda x: x.cat.codes)
 
-# Crear un gráfico de líneas con puntos
-plt.figure(figsize=(10, 6))
-ventas_por_estado.sort_values().plot(kind='line', marker='o')
-plt.title('Número de ventas por estado en la región South')
-plt.xlabel('Estado')
-plt.ylabel('Número de ventas')
-plt.grid(True)
+# Crear una matriz de correlación
+corr_matrix = df.corr()
+
+# Crear un mapa de calor para visualizar la matriz de correlación
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap='coolwarm')
 plt.show()
