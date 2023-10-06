@@ -40,20 +40,6 @@ for year in years:
     df_year = df[df['Year'] == year]
     df_year.to_csv(f'datos_{year}.csv', index=False)
 
-## __________________________________________
-
-# Obtener una lista de todos los valores únicos en la columna "City"
-unique_cities = df['City'].unique()
-
-# Imprimir la lista de valores únicos
-print(unique_cities)
-
-# Contar la cantidad de veces que aparece cada valor único en la columna "City"
-city_counts = df['City'].value_counts()
-
-# Imprimir la cantidad de veces que aparece cada valor único
-print(city_counts)
-
 ## ___________________________
 
 # Agrupar por 'Region' y contar el número de ventas (filas) en cada región
@@ -76,18 +62,17 @@ plt.show()
 
 ## __________________________________________________________________________
 
-# Convertir las columnas categóricas a tipo 'category'
-categorical_columns = ['Segment', 'City', 'State', 'Category', 'Sub-Category', 'Status']
-for col in categorical_columns:
-    df[col] = df[col].astype('category')
+# Filtrar por la región Sur
+south_df = df[df['Region'] == 'South']
 
-# Codificar las columnas categóricas
-df[categorical_columns] = df[categorical_columns].apply(lambda x: x.cat.codes)
+# Contar el número de ventas en cada estado
+grouped_df = south_df['State'].value_counts().sort_values()
 
-# Crear una matriz de correlación
-corr_matrix = df.corr()
+# Imprimir los resultados en la terminal
+print(grouped_df)
 
-# Crear un mapa de calor para visualizar la matriz de correlación
-plt.figure(figsize=(10, 8))
-sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap='coolwarm')
+# Crear un gráfico de puntos y líneas
+plt.plot(grouped_df.index, grouped_df.values, marker='o', linestyle='-')
+
+# Mostrar el gráfico
 plt.show()
